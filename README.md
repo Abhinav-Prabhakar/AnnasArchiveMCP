@@ -1,10 +1,10 @@
-# LibgenMCP
+# AnnasArchiveMCP
 
 A Rust MCP server for searching books through Anna's Archive via RapidAPI and downloading selected results safely to your machine.
 
 ## How to use
 
-This section is a practical manual for getting LibgenMCP running and using it from an MCP client.
+This section is a practical manual for getting AnnasArchiveMCP running and using it from an MCP client.
 
 ### 1. Build the server
 
@@ -12,19 +12,19 @@ Clone the repository and compile the binary:
 
 ```sh
 git clone <your-repo-url>
-cd LibgenMCP
+cd AnnasArchiveMCP
 cargo build --release
 ```
 
 The compiled binary will be:
 
 ```sh
-target/release/libgen-mcp
+target/release/annas-archive-mcp
 ```
 
 ### 2. Get a RapidAPI key
 
-LibgenMCP needs a RapidAPI key that has access to the Anna's Archive API.
+AnnasArchiveMCP needs a RapidAPI key that has access to the Anna's Archive API.
 
 Set it in your environment before starting the server:
 
@@ -39,22 +39,22 @@ You can also place it in a local `.env` file if that fits your setup better.
 You can run with only `RAPIDAPI_KEY`, but these optional variables are useful:
 
 - `RAPIDAPI_HOST` — defaults to `annas-archive-api.p.rapidapi.com`
-- `LIBGEN_MCP_DOWNLOAD_DIR` — default folder for downloaded files
-- `LIBGEN_MCP_OPEN_AFTER_DOWNLOAD` — `true` or `false`
-- `LIBGEN_MCP_CREATE_SUBDIRS` — `true` or `false`
-- `LIBGEN_MCP_OVERWRITE_DEFAULT` — `true` or `false`
-- `LIBGEN_MCP_DEFAULT_LIMIT` — default number of search results
-- `LIBGEN_MCP_MAX_LIMIT` — maximum allowed search results
+- `ANNAS_ARCHIVE_MCP_DOWNLOAD_DIR` — default folder for downloaded files
+- `ANNAS_ARCHIVE_MCP_OPEN_AFTER_DOWNLOAD` — `true` or `false`
+- `ANNAS_ARCHIVE_MCP_CREATE_SUBDIRS` — `true` or `false`
+- `ANNAS_ARCHIVE_MCP_OVERWRITE_DEFAULT` — `true` or `false`
+- `ANNAS_ARCHIVE_MCP_DEFAULT_LIMIT` — default number of search results
+- `ANNAS_ARCHIVE_MCP_MAX_LIMIT` — maximum allowed search results
 - `RUST_LOG` — log level such as `info` or `debug`
 
 Example:
 
 ```env
 RAPIDAPI_KEY=your_api_key_here
-LIBGEN_MCP_DOWNLOAD_DIR=~/Downloads
-LIBGEN_MCP_OPEN_AFTER_DOWNLOAD=false
-LIBGEN_MCP_CREATE_SUBDIRS=true
-LIBGEN_MCP_OVERWRITE_DEFAULT=false
+ANNAS_ARCHIVE_MCP_DOWNLOAD_DIR=~/Downloads
+ANNAS_ARCHIVE_MCP_OPEN_AFTER_DOWNLOAD=false
+ANNAS_ARCHIVE_MCP_CREATE_SUBDIRS=true
+ANNAS_ARCHIVE_MCP_OVERWRITE_DEFAULT=false
 RUST_LOG=info
 ```
 
@@ -69,7 +69,7 @@ cargo run
 Or run the compiled binary directly:
 
 ```sh
-./target/release/libgen-mcp
+./target/release/annas-archive-mcp
 ```
 
 The server uses stdio, so it is normally started by your MCP client instead of being used as a standalone interactive CLI.
@@ -83,8 +83,8 @@ Example MCP client configuration:
 ```json
 {
   "mcpServers": {
-    "libgen": {
-      "command": "/absolute/path/to/LibgenMCP/target/release/libgen-mcp",
+    "annas-archive": {
+      "command": "/absolute/path/to/AnnasArchiveMCP/target/release/annas-archive-mcp",
       "env": {
         "RAPIDAPI_KEY": "your_api_key_here",
         "RUST_LOG": "info"
@@ -143,7 +143,7 @@ The response includes the final saved path, filename, bytes written, and whether
 
 ### 8. Use the compatibility workflow if you want one-call behavior
 
-LibgenMCP also provides `search_and_download_book`.
+AnnasArchiveMCP also provides `search_and_download_book`.
 
 This workflow:
 
@@ -252,19 +252,19 @@ Clone the repository and build it:
 
 ```sh
 git clone <your-repo-url>
-cd LibgenMCP
+cd AnnasArchiveMCP
 cargo build --release
 ```
 
 The server binary will be available at:
 
 ```sh
-target/release/libgen-mcp
+target/release/annas-archive-mcp
 ```
 
 ## Configuration
 
-LibgenMCP reads configuration from environment variables and optionally from a local `.env` file.
+AnnasArchiveMCP reads configuration from environment variables and optionally from a local `.env` file.
 
 ### Required
 
@@ -273,19 +273,19 @@ LibgenMCP reads configuration from environment variables and optionally from a l
 ### Optional
 
 - `RAPIDAPI_HOST` — defaults to `annas-archive-api.p.rapidapi.com`
-- `LIBGEN_MCP_DEFAULT_PROVIDER` — defaults to `annas_archive`
-- `LIBGEN_MCP_DOWNLOAD_DIR` — default download directory
-- `LIBGEN_MCP_OPEN_AFTER_DOWNLOAD` — `true` or `false`
-- `LIBGEN_MCP_CREATE_SUBDIRS` — `true` or `false`
-- `LIBGEN_MCP_OVERWRITE_DEFAULT` — `true` or `false`
-- `LIBGEN_MCP_FILENAME_TEMPLATE` — filename template string
-- `LIBGEN_MCP_MAX_FILENAME_LENGTH` — max generated filename length
-- `LIBGEN_MCP_DEFAULT_LIMIT` — default search result limit
-- `LIBGEN_MCP_MAX_LIMIT` — max allowed search result limit
-- `LIBGEN_MCP_ENABLE_DEBUG_FIELDS` — include provider debug fields by default
-- `LIBGEN_MCP_TIMEOUT_SECS` — HTTP timeout
-- `LIBGEN_MCP_MAX_RETRIES` — provider retry count
-- `LIBGEN_MCP_USER_AGENT` — custom HTTP user agent
+- `ANNAS_ARCHIVE_MCP_DEFAULT_PROVIDER` — defaults to `annas_archive`
+- `ANNAS_ARCHIVE_MCP_DOWNLOAD_DIR` — default download directory
+- `ANNAS_ARCHIVE_MCP_OPEN_AFTER_DOWNLOAD` — `true` or `false`
+- `ANNAS_ARCHIVE_MCP_CREATE_SUBDIRS` — `true` or `false`
+- `ANNAS_ARCHIVE_MCP_OVERWRITE_DEFAULT` — `true` or `false`
+- `ANNAS_ARCHIVE_MCP_FILENAME_TEMPLATE` — filename template string
+- `ANNAS_ARCHIVE_MCP_MAX_FILENAME_LENGTH` — max generated filename length
+- `ANNAS_ARCHIVE_MCP_DEFAULT_LIMIT` — default search result limit
+- `ANNAS_ARCHIVE_MCP_MAX_LIMIT` — max allowed search result limit
+- `ANNAS_ARCHIVE_MCP_ENABLE_DEBUG_FIELDS` — include provider debug fields by default
+- `ANNAS_ARCHIVE_MCP_TIMEOUT_SECS` — HTTP timeout
+- `ANNAS_ARCHIVE_MCP_MAX_RETRIES` — provider retry count
+- `ANNAS_ARCHIVE_MCP_USER_AGENT` — custom HTTP user agent
 - `RUST_LOG` — log level, for example `info` or `debug`
 
 ### Example `.env`
@@ -293,12 +293,12 @@ LibgenMCP reads configuration from environment variables and optionally from a l
 ```env
 RAPIDAPI_KEY=your_api_key_here
 RAPIDAPI_HOST=annas-archive-api.p.rapidapi.com
-LIBGEN_MCP_DOWNLOAD_DIR=~/Downloads
-LIBGEN_MCP_OPEN_AFTER_DOWNLOAD=false
-LIBGEN_MCP_CREATE_SUBDIRS=true
-LIBGEN_MCP_OVERWRITE_DEFAULT=false
-LIBGEN_MCP_DEFAULT_LIMIT=10
-LIBGEN_MCP_MAX_LIMIT=50
+ANNAS_ARCHIVE_MCP_DOWNLOAD_DIR=~/Downloads
+ANNAS_ARCHIVE_MCP_OPEN_AFTER_DOWNLOAD=false
+ANNAS_ARCHIVE_MCP_CREATE_SUBDIRS=true
+ANNAS_ARCHIVE_MCP_OVERWRITE_DEFAULT=false
+ANNAS_ARCHIVE_MCP_DEFAULT_LIMIT=10
+ANNAS_ARCHIVE_MCP_MAX_LIMIT=50
 RUST_LOG=info
 ```
 
@@ -313,7 +313,7 @@ cargo run
 Or run the release binary:
 
 ```sh
-./target/release/libgen-mcp
+./target/release/annas-archive-mcp
 ```
 
 The server communicates over stdio and is intended to be launched by an MCP client.
@@ -325,8 +325,8 @@ Example command-based MCP configuration:
 ```json
 {
   "mcpServers": {
-    "libgen": {
-      "command": "/absolute/path/to/LibgenMCP/target/release/libgen-mcp",
+    "annas-archive": {
+      "command": "/absolute/path/to/AnnasArchiveMCP/target/release/annas-archive-mcp",
       "env": {
         "RAPIDAPI_KEY": "your_api_key_here",
         "RUST_LOG": "info"

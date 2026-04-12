@@ -1,23 +1,23 @@
 [package]
-name = "libgen-mcp"
+name = "annas-archive-mcp"
 version = "0.1.0"
 edition = "2021"
-description = "A robust Rust MCP server for searching and downloading books over MCP."
+description = "A robust Rust MCP server for searching and downloading books from Anna's Archive over MCP."
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/your-org/libgen-mcp"
-homepage = "https://github.com/your-org/libgen-mcp"
-documentation = "https://github.com/your-org/libgen-mcp#readme"
+repository = "https://github.com/your-org/annas-archive-mcp"
+homepage = "https://github.com/your-org/annas-archive-mcp"
+documentation = "https://github.com/your-org/annas-archive-mcp#readme"
 authors = ["Abhinav"]
-keywords = ["mcp", "books", "downloader", "rust", "stdio"]
+keywords = ["mcp", "books", "downloader", "rust", "stdio", "annas-archive"]
 categories = ["command-line-utilities", "network-programming"]
 
 [lib]
-name = "libgen_mcp"
+name = "annas_archive_mcp"
 path = "src/lib.rs"
 
 [[bin]]
-name = "libgen-mcp"
+name = "annas-archive-mcp"
 path = "src/main.rs"
 
 [dependencies]

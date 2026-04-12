@@ -13,7 +13,7 @@ const DEFAULT_DEFAULT_LIMIT: usize = 10;
 const DEFAULT_MAX_LIMIT: usize = 50;
 const DEFAULT_TIMEOUT_SECS: u64 = 30;
 const DEFAULT_MAX_RETRIES: u32 = 3;
-const DEFAULT_USER_AGENT: &str = "libgen-mcp/0.1.0";
+const DEFAULT_USER_AGENT: &str = "annas-archive-mcp/0.1.0";
 const DEFAULT_OPEN_AFTER_DOWNLOAD: bool = false;
 const DEFAULT_CREATE_SUBDIRS: bool = true;
 const DEFAULT_OVERWRITE: bool = false;
@@ -108,7 +108,7 @@ impl AppConfig {
     pub fn load() -> AppResult<Self> {
         let _ = dotenv();
 
-        let provider_default = env_string("LIBGEN_MCP_DEFAULT_PROVIDER")
+        let provider_default = env_string("ANNAS_ARCHIVE_MCP_DEFAULT_PROVIDER")
             .map(|value| ProviderKind::from_str(&value))
             .transpose()?
             .unwrap_or_else(|| {
@@ -120,36 +120,39 @@ impl AppConfig {
             env_string("RAPIDAPI_HOST").unwrap_or_else(|| DEFAULT_RAPIDAPI_HOST.to_string());
 
         let default_download_dir = resolve_default_download_dir()?;
-        let download_dir = env_pathbuf("LIBGEN_MCP_DOWNLOAD_DIR").unwrap_or(default_download_dir);
+        let download_dir =
+            env_pathbuf("ANNAS_ARCHIVE_MCP_DOWNLOAD_DIR").unwrap_or(default_download_dir);
 
-        let open_after_download_default =
-            env_bool("LIBGEN_MCP_OPEN_AFTER_DOWNLOAD")?.unwrap_or(DEFAULT_OPEN_AFTER_DOWNLOAD);
+        let open_after_download_default = env_bool("ANNAS_ARCHIVE_MCP_OPEN_AFTER_DOWNLOAD")?
+            .unwrap_or(DEFAULT_OPEN_AFTER_DOWNLOAD);
 
         let create_subdirs =
-            env_bool("LIBGEN_MCP_CREATE_SUBDIRS")?.unwrap_or(DEFAULT_CREATE_SUBDIRS);
+            env_bool("ANNAS_ARCHIVE_MCP_CREATE_SUBDIRS")?.unwrap_or(DEFAULT_CREATE_SUBDIRS);
 
         let overwrite_default =
-            env_bool("LIBGEN_MCP_OVERWRITE_DEFAULT")?.unwrap_or(DEFAULT_OVERWRITE);
+            env_bool("ANNAS_ARCHIVE_MCP_OVERWRITE_DEFAULT")?.unwrap_or(DEFAULT_OVERWRITE);
 
-        let filename_template = env_string("LIBGEN_MCP_FILENAME_TEMPLATE")
+        let filename_template = env_string("ANNAS_ARCHIVE_MCP_FILENAME_TEMPLATE")
             .unwrap_or_else(|| DEFAULT_FILENAME_TEMPLATE.to_string());
 
-        let max_filename_length =
-            env_usize("LIBGEN_MCP_MAX_FILENAME_LENGTH")?.unwrap_or(DEFAULT_MAX_FILENAME_LENGTH);
+        let max_filename_length = env_usize("ANNAS_ARCHIVE_MCP_MAX_FILENAME_LENGTH")?
+            .unwrap_or(DEFAULT_MAX_FILENAME_LENGTH);
 
-        let default_limit = env_usize("LIBGEN_MCP_DEFAULT_LIMIT")?.unwrap_or(DEFAULT_DEFAULT_LIMIT);
+        let default_limit =
+            env_usize("ANNAS_ARCHIVE_MCP_DEFAULT_LIMIT")?.unwrap_or(DEFAULT_DEFAULT_LIMIT);
 
-        let max_limit = env_usize("LIBGEN_MCP_MAX_LIMIT")?.unwrap_or(DEFAULT_MAX_LIMIT);
+        let max_limit = env_usize("ANNAS_ARCHIVE_MCP_MAX_LIMIT")?.unwrap_or(DEFAULT_MAX_LIMIT);
 
-        let enable_debug_fields =
-            env_bool("LIBGEN_MCP_ENABLE_DEBUG_FIELDS")?.unwrap_or(DEFAULT_ENABLE_DEBUG_FIELDS);
+        let enable_debug_fields = env_bool("ANNAS_ARCHIVE_MCP_ENABLE_DEBUG_FIELDS")?
+            .unwrap_or(DEFAULT_ENABLE_DEBUG_FIELDS);
 
-        let timeout_secs = env_u64("LIBGEN_MCP_TIMEOUT_SECS")?.unwrap_or(DEFAULT_TIMEOUT_SECS);
+        let timeout_secs =
+            env_u64("ANNAS_ARCHIVE_MCP_TIMEOUT_SECS")?.unwrap_or(DEFAULT_TIMEOUT_SECS);
 
-        let max_retries = env_u32("LIBGEN_MCP_MAX_RETRIES")?.unwrap_or(DEFAULT_MAX_RETRIES);
+        let max_retries = env_u32("ANNAS_ARCHIVE_MCP_MAX_RETRIES")?.unwrap_or(DEFAULT_MAX_RETRIES);
 
-        let user_agent =
-            env_string("LIBGEN_MCP_USER_AGENT").unwrap_or_else(|| DEFAULT_USER_AGENT.to_string());
+        let user_agent = env_string("ANNAS_ARCHIVE_MCP_USER_AGENT")
+            .unwrap_or_else(|| DEFAULT_USER_AGENT.to_string());
 
         let log_level = env_string("RUST_LOG").unwrap_or_else(|| "info".to_string());
 
@@ -181,7 +184,7 @@ impl AppConfig {
             },
             logging: LoggingConfig { level: log_level },
             server: ServerConfig {
-                name: "libgen-mcp".to_string(),
+                name: "annas-archive-mcp".to_string(),
                 version: env!("CARGO_PKG_VERSION").to_string(),
             },
         };
@@ -199,44 +202,44 @@ impl AppConfig {
 
         if self.search.default_limit == 0 {
             return Err(AppError::config(
-                "LIBGEN_MCP_DEFAULT_LIMIT must be greater than 0".to_string(),
+                "ANNAS_ARCHIVE_MCP_DEFAULT_LIMIT must be greater than 0".to_string(),
             ));
         }
 
         if self.search.max_limit == 0 {
             return Err(AppError::config(
-                "LIBGEN_MCP_MAX_LIMIT must be greater than 0".to_string(),
+                "ANNAS_ARCHIVE_MCP_MAX_LIMIT must be greater than 0".to_string(),
             ));
         }
 
         if self.search.default_limit > self.search.max_limit {
             return Err(AppError::config(format!(
-                "LIBGEN_MCP_DEFAULT_LIMIT ({}) must be less than or equal to LIBGEN_MCP_MAX_LIMIT ({})",
+                "ANNAS_ARCHIVE_MCP_DEFAULT_LIMIT ({}) must be less than or equal to ANNAS_ARCHIVE_MCP_MAX_LIMIT ({})",
                 self.search.default_limit, self.search.max_limit
             )));
         }
 
         if self.network.timeout_secs == 0 {
             return Err(AppError::config(
-                "LIBGEN_MCP_TIMEOUT_SECS must be greater than 0".to_string(),
+                "ANNAS_ARCHIVE_MCP_TIMEOUT_SECS must be greater than 0".to_string(),
             ));
         }
 
         if self.download.max_filename_length < 32 {
             return Err(AppError::config(
-                "LIBGEN_MCP_MAX_FILENAME_LENGTH must be at least 32".to_string(),
+                "ANNAS_ARCHIVE_MCP_MAX_FILENAME_LENGTH must be at least 32".to_string(),
             ));
         }
 
         if self.download.filename_template.trim().is_empty() {
             return Err(AppError::config(
-                "LIBGEN_MCP_FILENAME_TEMPLATE must not be empty".to_string(),
+                "ANNAS_ARCHIVE_MCP_FILENAME_TEMPLATE must not be empty".to_string(),
             ));
         }
 
         if self.network.user_agent.trim().is_empty() {
             return Err(AppError::config(
-                "LIBGEN_MCP_USER_AGENT must not be empty".to_string(),
+                "ANNAS_ARCHIVE_MCP_USER_AGENT must not be empty".to_string(),
             ));
         }
 
@@ -425,7 +428,7 @@ mod tests {
                 level: "info".to_string(),
             },
             server: ServerConfig {
-                name: "libgen-mcp".to_string(),
+                name: "annas-archive-mcp".to_string(),
                 version: "0.1.0".to_string(),
             },
         };
@@ -468,7 +471,7 @@ mod tests {
                 level: "info".to_string(),
             },
             server: ServerConfig {
-                name: "libgen-mcp".to_string(),
+                name: "annas-archive-mcp".to_string(),
                 version: "0.1.0".to_string(),
             },
         };

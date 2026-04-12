@@ -48,5 +48,5 @@ fn render_error(error: &AppError) -> String {
         message.push('.');
     }
 
-    format!("libgen-mcp failed: {message}")
+    format!("annas-archive-mcp failed: {message}")
 }

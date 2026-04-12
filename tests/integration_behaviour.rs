@@ -1,20 +1,22 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use libgen_mcp::config::{
+use annas_archive_mcp::config::{
     AppConfig, DownloadConfig, LoggingConfig, NetworkConfig, ProviderConfig, ProviderKind,
     RapidApiConfig, SearchConfig, ServerConfig,
 };
-use libgen_mcp::domain::book::{BookCandidate, ProviderKind as DomainProviderKind};
-use libgen_mcp::domain::download::{DownloadRequest, SelectionMode};
-use libgen_mcp::domain::ranking::{
+use annas_archive_mcp::domain::book::{BookCandidate, ProviderKind as DomainProviderKind};
+use annas_archive_mcp::domain::download::{DownloadRequest, SelectionMode};
+use annas_archive_mcp::domain::ranking::{
     rank_candidates, select_best_candidate, RankingCandidate, RankingPreferences, RankingQuery,
 };
-use libgen_mcp::util::filenames::{
-    build_download_filename, normalize_extension, resolve_unique_filename, sanitize_component,
+use annas_archive_mcp::util::filenames::{
+    build_download_filename, ensure_unique_path, normalize_extension, sanitize_component,
 };
-use libgen_mcp::util::formatting::{format_authors, format_bytes, summarize_candidate};
-use libgen_mcp::util::paths::{ensure_path_within_root, join_filename_safely, normalize_path};
+use annas_archive_mcp::util::formatting::{format_authors, format_bytes, summarize_candidate};
+use annas_archive_mcp::util::paths::{
+    ensure_path_within_root, join_filename_safely, normalize_path,
+};
 use tempfile::tempdir;
 
 fn test_config() -> AppConfig {
@@ -42,13 +44,13 @@ fn test_config() -> AppConfig {
         network: NetworkConfig {
             timeout_secs: 30,
             max_retries: 3,
-            user_agent: "libgen-mcp-test/0.1.0".to_string(),
+            user_agent: "annas-archive-mcp-test/0.1.0".to_string(),
         },
         logging: LoggingConfig {
             level: "info".to_string(),
         },
         server: ServerConfig {
-            name: "libgen-mcp".to_string(),
+            name: "annas-archive-mcp".to_string(),
             version: "0.1.0".to_string(),
         },
     }
@@ -177,10 +179,9 @@ fn resolve_unique_filename_adds_suffix_when_file_exists() {
     let original = dir.path().join("Book - Author.pdf");
     fs::write(&original, b"existing").unwrap();
 
-    let generated = resolve_unique_filename(dir.path(), "Book - Author.pdf");
+    let generated = ensure_unique_path(dir.path(), "Book - Author.pdf");
 
-    assert_eq!(generated.filename, "Book - Author (1).pdf");
-    assert_eq!(generated.path, dir.path().join("Book - Author (1).pdf"));
+    assert_eq!(generated, dir.path().join("Book - Author (1).pdf"));
 }
 
 #[test]

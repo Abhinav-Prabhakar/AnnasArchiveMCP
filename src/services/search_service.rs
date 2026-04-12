@@ -447,7 +447,7 @@ mod tests {
                 level: "info".to_string(),
             },
             server: ServerConfig {
-                name: "libgen-mcp".to_string(),
+                name: "annas-archive-mcp".to_string(),
                 version: "0.1.0".to_string(),
             },
         })
