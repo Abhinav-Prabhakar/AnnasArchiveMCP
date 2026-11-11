@@ -257,6 +257,7 @@ brew install Abhinav-Prabhakar/tap/annas-archive-mcp
 ### Windows
 
 ```powershell
+# The winget package is under Defender review; Scoop and the zip below work today.
 winget install AbhinavPrabhakar.AnnasArchiveMCP
 ```
 
