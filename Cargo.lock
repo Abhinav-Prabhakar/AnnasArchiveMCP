@@ -12,8 +12,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "annas-archive-mcp"
-version = "0.1.0"
+name = "annas-archive-mcp-server"
+version = "1.0.5"
 dependencies = [
  "async-trait",
  "bytes",

@@ -248,19 +248,57 @@ If downloading fails:
 
 ## Installation
 
-Clone the repository and build it:
+### Homebrew — macOS and Linux
 
 ```sh
-git clone <your-repo-url>
+brew install Abhinav-Prabhakar/tap/annas-archive-mcp
+```
+
+### Windows
+
+```powershell
+winget install AbhinavPrabhakar.AnnasArchiveMCP
+```
+
+Or with Scoop:
+
+```powershell
+scoop bucket add abhinav https://github.com/Abhinav-Prabhakar/ScoopBucket
+scoop install annas-archive-mcp
+```
+
+### Cargo — any platform with Rust
+
+```sh
+cargo install annas-archive-mcp-server
+```
+
+The package is named `annas-archive-mcp-server`; the server binary it installs is
+`annas-archive-mcp`.
+
+### Installer script
+
+macOS and Linux:
+
+```sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/Abhinav-Prabhakar/AnnasArchiveMCP/releases/latest/download/annas-archive-mcp-server-installer.sh | sh
+```
+
+Windows PowerShell:
+
+```powershell
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/Abhinav-Prabhakar/AnnasArchiveMCP/releases/latest/download/annas-archive-mcp-server-installer.ps1 | iex"
+```
+
+### From source
+
+```sh
+git clone https://github.com/Abhinav-Prabhakar/AnnasArchiveMCP.git
 cd AnnasArchiveMCP
 cargo build --release
 ```
 
-The server binary will be available at:
-
-```sh
-target/release/annas-archive-mcp
-```
+The server binary will be available at `target/release/annas-archive-mcp`.
 
 ## Configuration
 

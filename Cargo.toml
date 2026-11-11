@@ -1,16 +1,20 @@
 [package]
-name = "annas-archive-mcp"
-version = "1.0.4"
+name = "annas-archive-mcp-server"
+version = "1.0.5"
 edition = "2021"
 description = "A robust Rust MCP server for searching and downloading books from Anna's Archive over MCP."
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/your-org/annas-archive-mcp"
-homepage = "https://github.com/your-org/annas-archive-mcp"
-documentation = "https://github.com/your-org/annas-archive-mcp#readme"
-authors = ["Abhinav"]
-keywords = ["mcp", "books", "downloader", "rust", "stdio", "annas-archive"]
+repository = "https://github.com/Abhinav-Prabhakar/AnnasArchiveMCP"
+homepage = "https://github.com/Abhinav-Prabhakar/AnnasArchiveMCP"
+documentation = "https://github.com/Abhinav-Prabhakar/AnnasArchiveMCP#readme"
+authors = ["Abhinav Prabhakar"]
+keywords = ["mcp", "books", "downloader", "annas-archive", "rust"]
 categories = ["command-line-utilities", "network-programming"]
+exclude = [".github/", "dist-workspace.toml"]
+
+[package.metadata.dist]
+formula = "annas-archive-mcp"
 
 [lib]
 name = "annas_archive_mcp"
@@ -51,3 +55,8 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 lto = true
 codegen-units = 1
 strip = true
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
